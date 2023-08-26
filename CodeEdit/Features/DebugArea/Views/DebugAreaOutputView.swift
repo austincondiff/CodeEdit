@@ -9,6 +9,9 @@ import SwiftUI
 import LogStream
 
 struct DebugAreaOutputView: View {
+    @Environment(\.tabSelected)
+    var tabSelected
+
     @EnvironmentObject private var model: DebugAreaViewModel
 
     @ObservedObject var extensionManager = ExtensionManager.shared
@@ -86,5 +89,6 @@ struct DebugAreaOutputView: View {
                 }
             }
         }
+        .environment(\.tabSelected, tabSelected)
     }
 }

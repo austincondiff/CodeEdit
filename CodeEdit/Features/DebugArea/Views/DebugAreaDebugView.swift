@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct DebugAreaDebugView: View {
+    @Environment(\.tabSelected)
+    var tabSelected
+
     @State var tabSelection = 0
 
     var body: some View {
@@ -38,5 +41,6 @@ struct DebugAreaDebugView: View {
 //                }
             }
         }
+        .environment(\.tabSelected, tabSelected)
     }
 }

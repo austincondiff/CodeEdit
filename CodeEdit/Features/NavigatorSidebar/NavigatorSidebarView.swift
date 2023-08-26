@@ -37,11 +37,11 @@ struct NavigatorSidebarView: View {
     }
 
     var body: some View {
-        VStack {
-            if let selection {
-                selection
-            } else {
-                NoSelectionInspectorView()
+        ZStack {
+            ForEach(items) { item in
+                item
+                    .disabled(item != selection)
+                    .opacity(item == selection ? 1 : 0)
             }
         }
         .safeAreaInset(edge: .leading, spacing: 0) {

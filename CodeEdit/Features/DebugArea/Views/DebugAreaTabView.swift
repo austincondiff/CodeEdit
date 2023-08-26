@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct DebugAreaTabView<Content: View, LeadingSidebar: View, TrailingSidebar: View>: View {
-    @ObservedObject var model: DebugAreaTabViewModel = DebugAreaTabViewModel.shared
+    @Environment(\.tabSelected)
+    var tabSelected
+
+    @ObservedObject var model: DebugAreaTabViewModel = DebugAreaTabViewModel()
 
     let content: (DebugAreaTabViewModel) -> Content
     let leadingSidebar: (DebugAreaTabViewModel) -> LeadingSidebar?
@@ -30,6 +33,9 @@ struct DebugAreaTabView<Content: View, LeadingSidebar: View, TrailingSidebar: Vi
 
         self.hasLeadingSidebar = hasLeadingSidebar
         self.hasTrailingSidebar = hasTrailingSidebar
+
+        model.hasLeadingSidebar = hasLeadingSidebar
+        model.hasTrailingSidebar = hasTrailingSidebar
     }
 
     init(@ViewBuilder content: @escaping (DebugAreaTabViewModel) -> Content) where
@@ -109,6 +115,8 @@ struct DebugAreaTabView<Content: View, LeadingSidebar: View, TrailingSidebar: Vi
                     }
                     Divider()
                 }
+                .disabled(!tabSelected)
+                .opacity(tabSelected ? 1 : 0)
             }
         }
         .overlay(alignment: .bottomTrailing) {
@@ -126,6 +134,8 @@ struct DebugAreaTabView<Content: View, LeadingSidebar: View, TrailingSidebar: Vi
                             .frame(width: 24)
                     }
                 }
+                .disabled(!tabSelected)
+                .opacity(tabSelected ? 1 : 0)
             }
         }
         .environmentObject(model)

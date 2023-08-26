@@ -15,6 +15,4 @@ class DebugAreaTabViewModel: ObservableObject {
     @Published var hasLeadingSidebar: Bool = false
 
     @Published var hasTrailingSidebar: Bool = false
-
-    public static let shared: DebugAreaTabViewModel = .init()
 }

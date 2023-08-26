@@ -36,6 +36,9 @@ struct DebugAreaTerminalView: View {
     @Environment(\.colorScheme)
     private var colorScheme
 
+    @Environment(\.tabSelected)
+    var tabSelected
+
     @EnvironmentObject private var workspace: WorkspaceDocument
 
     @EnvironmentObject private var model: DebugAreaViewModel
@@ -243,6 +246,7 @@ struct DebugAreaTerminalView: View {
             }
         }
         .onAppear(perform: initializeTerminals)
+        .environment(\.tabSelected, tabSelected)
     }
 }
 

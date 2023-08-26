@@ -15,13 +15,17 @@ struct DebugAreaView: View {
 
     @State var selection: DebugAreaTab? = .terminal
 
+    var items: [DebugAreaTab] = [
+        .terminal, .debugConsole, .output
+    ]
+
     var body: some View {
-        VStack(spacing: 0) {
-            if let selection {
-                selection
-            } else {
-                Text("Tab not found")
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+        ZStack {
+            ForEach(items) { item in
+                item
+                    .disabled(item != selection)
+                    .opacity(item == selection ? 1 : 0)
+                    .environment(\.tabSelected, item == selection)
             }
         }
         .safeAreaInset(edge: .leading, spacing: 0) {
@@ -47,5 +51,16 @@ struct DebugAreaView: View {
             .padding(.vertical, 8)
             .frame(maxHeight: 27)
         }
+    }
+}
+
+struct TabSelectedKey: EnvironmentKey {
+    static var defaultValue: Bool = false
+}
+
+extension EnvironmentValues {
+    var tabSelected: Bool {
+        get { self[TabSelectedKey.self] }
+        set { self[TabSelectedKey.self] = newValue }
     }
 }
