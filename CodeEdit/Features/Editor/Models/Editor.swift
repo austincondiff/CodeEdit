@@ -77,9 +77,9 @@ final class Editor: ObservableObject, Identifiable {
         parent?.closeEditor(with: id)
     }
 
-    /// Gets the editor layout.
-    func getEditorLayout() -> EditorLayout? {
-        return parent?.getEditorLayout(with: id)
+    /// Gets the editor split.
+    func getEditorSplit() -> EditorSplit? {
+        return parent?.getEditorSplit(with: id)
     }
 
     /// Closes a tab in the editor.

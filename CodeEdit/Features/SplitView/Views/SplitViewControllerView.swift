@@ -84,15 +84,12 @@ final class SplitViewController: NSSplitViewController {
     override func viewDidLoad() {
         splitView.isVertical = axis != .vertical
         splitView.dividerStyle = .thin
+
         DispatchQueue.main.async { [weak self] in
             self?.parentView.viewController = { [weak self] in
                 self
             }
         }
-    }
-
-    override func splitView(_ splitView: NSSplitView, shouldHideDividerAt dividerIndex: Int) -> Bool {
-        false
     }
 
     func collapse(for id: AnyHashable, enabled: Bool) {

@@ -174,7 +174,7 @@ final class WorkspaceDocument: NSDocument, ObservableObject, NSToolbarDelegate {
             return
         }
         // Save unsaved changes before closing
-        let editedCodeFiles = editorManager.editorLayout
+        let editedCodeFiles = editorManager.editorSplit
             .gatherOpenFiles()
             .compactMap(\.fileDocument)
             .filter(\.isDocumentEdited)
@@ -203,7 +203,7 @@ final class WorkspaceDocument: NSDocument, ObservableObject, NSToolbarDelegate {
             implementation,
             to: (@convention(c)(Any, Selector, Any, Bool, UnsafeMutableRawPointer?) -> Void).self
         )
-        let areAllOpenedCodeFilesClean = editorManager.editorLayout.gatherOpenFiles()
+        let areAllOpenedCodeFilesClean = editorManager.editorSplit.gatherOpenFiles()
             .compactMap(\.fileDocument)
             .allSatisfy { !$0.isDocumentEdited }
         function(object, shouldCloseSelector, self, areAllOpenedCodeFilesClean, contextInfo)

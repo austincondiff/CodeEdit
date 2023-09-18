@@ -1,5 +1,5 @@
 //
-//  EditorLayoutView.swift
+//  EditorSplitView.swift
 //  CodeEdit
 //
 //  Created by Wouter Hennen on 20/02/2023.
@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct EditorLayoutView: View {
-    var layout: EditorLayout
+struct EditorSplitView: View {
+    var split: EditorSplit
 
     @FocusState.Binding var focus: Editor?
 
@@ -24,7 +24,7 @@ struct EditorLayoutView: View {
 
     var body: some View {
         VStack {
-            switch layout {
+            switch split {
             case .one(let detailEditor):
                 EditorView(editor: detailEditor, focus: $focus)
                     .transformEnvironment(\.edgeInsets) { insets in
@@ -41,12 +41,12 @@ struct EditorLayoutView: View {
                         }
                     }
             case .vertical(let data), .horizontal(let data):
-                SubEditorLayoutView(data: data, focus: $focus)
+                ChildEditorSplitView(data: data, focus: $focus)
             }
         }
     }
 
-    struct SubEditorLayoutView: View {
+    struct ChildEditorSplitView: View {
         @ObservedObject var data: SplitViewData
 
         @FocusState.Binding var focus: Editor?
@@ -59,8 +59,8 @@ struct EditorLayoutView: View {
         }
 
         var splitView: some View {
-            ForEach(Array(data.editorLayouts.enumerated()), id: \.offset) { index, item in
-                EditorLayoutView(layout: item, focus: $focus)
+            ForEach(Array(data.editorSplits.enumerated()), id: \.offset) { index, item in
+                EditorSplitView(split: item, focus: $focus)
                     .transformEnvironment(\.isAtEdge) { belowToolbar in
                         calcIsAtEdge(current: &belowToolbar, index: index)
                     }
@@ -72,8 +72,8 @@ struct EditorLayoutView: View {
 
         func calcIsAtEdge(current: inout VerticalEdge.Set, index: Int) {
             if case .vertical = data.axis {
-                guard data.editorLayouts.count != 1 else { return }
-                if index == data.editorLayouts.count - 1 {
+                guard data.editorSplits.count != 1 else { return }
+                if index == data.editorSplits.count - 1 {
                     current.remove(.top)
                 } else if index == 0 {
                     current.remove(.bottom)

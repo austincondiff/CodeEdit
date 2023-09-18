@@ -36,10 +36,10 @@ struct WorkspaceView: View {
             VStack {
                 SplitViewReader { proxy in
                     SplitView(axis: .vertical) {
-                        EditorLayoutView(
-                            layout: editorManager.isFocusingActiveEditor
-                            ? editorManager.activeEditor.getEditorLayout() ?? editorManager.editorLayout
-                            : editorManager.editorLayout,
+                        EditorSplitView(
+                            split: editorManager.isFocusingActiveEditor
+                            ? editorManager.activeEditor.getEditorSplit() ?? editorManager.editorSplit
+                            : editorManager.editorSplit,
                             focus: $focusedEditor
                         )
                         .collapsable()

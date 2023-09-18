@@ -11,11 +11,11 @@ import OrderedCollections
 
 struct EditorRestorationState: Codable {
     var focus: Editor
-    var groups: EditorLayout
+    var groups: EditorSplit
 }
 
-extension EditorLayout: Codable {
-    fileprivate enum EditorLayoutType: String, Codable {
+extension EditorSplit: Codable {
+    fileprivate enum EditorSplitType: String, Codable {
         case one
         case vertical
         case horizontal
@@ -28,7 +28,7 @@ extension EditorLayout: Codable {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let type = try container.decode(EditorLayoutType.self, forKey: .type)
+        let type = try container.decode(EditorSplitType.self, forKey: .type)
         switch type {
         case .one:
             let editor = try container.decode(Editor.self, forKey: .tabs)
@@ -46,13 +46,13 @@ extension EditorLayout: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
         case let .one(data):
-            try container.encode(EditorLayoutType.one, forKey: .type)
+            try container.encode(EditorSplitType.one, forKey: .type)
             try container.encode(data, forKey: .tabs)
         case let .vertical(data):
-            try container.encode(EditorLayoutType.vertical, forKey: .type)
+            try container.encode(EditorSplitType.vertical, forKey: .type)
             try container.encode(data, forKey: .tabs)
         case let .horizontal(data):
-            try container.encode(EditorLayoutType.horizontal, forKey: .type)
+            try container.encode(EditorSplitType.horizontal, forKey: .type)
             try container.encode(data, forKey: .tabs)
         }
     }
@@ -78,20 +78,20 @@ extension SplitViewData: Codable {
     }
 
     enum CodingKeys: String, CodingKey {
-        case editorLayouts
+        case editorSplits
         case axis
     }
 
     convenience init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let axis = try container.decode(SplitViewAxis.self, forKey: .axis).swiftUI
-        let editorLayouts = try container.decode([EditorLayout].self, forKey: .editorLayouts)
-        self.init(axis, editorLayouts: editorLayouts)
+        let editorSplits = try container.decode([EditorSplit].self, forKey: .editorSplits)
+        self.init(axis, editorSplits: editorSplits)
     }
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(editorLayouts, forKey: .editorLayouts)
+        try container.encode(editorSplits, forKey: .editorSplits)
         try container.encode(SplitViewAxis(axis), forKey: .axis)
     }
 }

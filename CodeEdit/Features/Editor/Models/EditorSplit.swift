@@ -1,5 +1,5 @@
 //
-//  EditorLayout.swift
+//  EditorSplit.swift
 //  CodeEdit
 //
 //  Created by Wouter Hennen on 06/02/2023.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum EditorLayout {
+enum EditorSplit {
     case one(Editor)
     case vertical(SplitViewData)
     case horizontal(SplitViewData)
@@ -19,7 +19,7 @@ enum EditorLayout {
         case .one(let editor):
             editor.tabs.remove(file)
         case .vertical(let data), .horizontal(let data):
-            data.editorLayouts.forEach {
+            data.editorSplits.forEach {
                 $0.closeAllTabs(of: file)
             }
         }
@@ -33,8 +33,8 @@ enum EditorLayout {
         case .one(let editor) where editor != except:
             return editor
         case .vertical(let data), .horizontal(let data):
-            for editorLayout in data.editorLayouts {
-                if let result = editorLayout.findSomeEditor(except: except), result != except {
+            for editorSplit in data.editorSplits {
+                if let result = editorSplit.findSomeEditor(except: except), result != except {
                     return result
                 }
             }
@@ -50,7 +50,7 @@ enum EditorLayout {
         case .one(let editor):
             return Set(editor.tabs)
         case .vertical(let data), .horizontal(let data):
-            return data.editorLayouts.map { $0.gatherOpenFiles() }.reduce(into: []) { $0.formUnion($1) }
+            return data.editorSplits.map { $0.gatherOpenFiles() }.reduce(into: []) { $0.formUnion($1) }
         }
     }
 
@@ -60,8 +60,8 @@ enum EditorLayout {
         case .one:
             break
         case .horizontal(let data), .vertical(let data):
-            if data.editorLayouts.count == 1 {
-                let one = data.editorLayouts[0]
+            if data.editorSplits.count == 1 {
+                let one = data.editorSplits[0]
                 if case .one(let editor) = one {
                     editor.parent = parent
                 }

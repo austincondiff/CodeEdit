@@ -8,15 +8,15 @@
 import SwiftUI
 
 final class SplitViewData: ObservableObject {
-    @Published var editorLayouts: [EditorLayout]
+    @Published var editorSplits: [EditorSplit]
 
     var axis: Axis
 
-    init(_ axis: Axis, editorLayouts: [EditorLayout] = []) {
-        self.editorLayouts = editorLayouts
+    init(_ axis: Axis, editorSplits: [EditorSplit] = []) {
+        self.editorSplits = editorSplits
         self.axis = axis
 
-        editorLayouts.forEach {
+        editorSplits.forEach {
             if case .one(let editor) = $0 {
                 editor.parent = self
             }
@@ -34,30 +34,30 @@ final class SplitViewData: ObservableObject {
         editor.parent = self
         switch (axis, direction) {
         case (.horizontal, .trailing), (.vertical, .bottom):
-            editorLayouts.insert(.one(editor), at: index+1)
+            editorSplits.insert(.one(editor), at: index+1)
 
         case (.horizontal, .leading), (.vertical, .top):
-            editorLayouts.insert(.one(editor), at: index)
+            editorSplits.insert(.one(editor), at: index)
 
         case (.horizontal, .top):
-            editorLayouts[index] = .vertical(.init(.vertical, editorLayouts: [.one(editor), editorLayouts[index]]))
+            editorSplits[index] = .vertical(.init(.vertical, editorSplits: [.one(editor), editorSplits[index]]))
 
         case (.horizontal, .bottom):
-            editorLayouts[index] = .vertical(.init(.vertical, editorLayouts: [editorLayouts[index], .one(editor)]))
+            editorSplits[index] = .vertical(.init(.vertical, editorSplits: [editorSplits[index], .one(editor)]))
 
         case (.vertical, .leading):
-            editorLayouts[index] = .horizontal(.init(.horizontal, editorLayouts: [.one(editor), editorLayouts[index]]))
+            editorSplits[index] = .horizontal(.init(.horizontal, editorSplits: [.one(editor), editorSplits[index]]))
 
         case (.vertical, .trailing):
-            editorLayouts[index] = .horizontal(.init(.horizontal, editorLayouts: [editorLayouts[index], .one(editor)]))
+            editorSplits[index] = .horizontal(.init(.horizontal, editorSplits: [editorSplits[index], .one(editor)]))
         }
     }
 
     /// Closes an Editor.
     /// - Parameter id: ID of the Editor.
     func closeEditor(with id: Editor.ID) {
-        editorLayouts.removeAll { editorLayout in
-            if case .one(let editor) = editorLayout {
+        editorSplits.removeAll { editorSplit in
+            if case .one(let editor) = editorSplit {
                 if editor.id == id {
                     return true
                 }
@@ -67,11 +67,11 @@ final class SplitViewData: ObservableObject {
         }
     }
 
-    func getEditorLayout(with id: Editor.ID) -> EditorLayout? {
-        for editorLayout in editorLayouts {
-            if case .one(let editor) = editorLayout {
+    func getEditorSplit(with id: Editor.ID) -> EditorSplit? {
+        for editorSplit in editorSplits {
+            if case .one(let editor) = editorSplit {
                 if editor.id == id {
-                    return editorLayout
+                    return editorSplit
                 }
             }
         }
@@ -81,8 +81,8 @@ final class SplitViewData: ObservableObject {
 
     /// Flattens the splitviews.
     func flatten() {
-        for index in editorLayouts.indices {
-            editorLayouts[index].flatten(parent: self)
+        for index in editorSplits.indices {
+            editorSplits[index].flatten(parent: self)
         }
     }
 }

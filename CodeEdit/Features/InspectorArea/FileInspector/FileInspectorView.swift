@@ -93,7 +93,7 @@ struct FileInspectorView: View {
                             .deletingLastPathComponent()
                             .appendingPathComponent(fileName)
                         if !file.isFolder {
-                            editorManager.editorLayout.closeAllTabs(of: file)
+                            editorManager.editorSplit.closeAllTabs(of: file)
                         }
                         DispatchQueue.main.async {
                             file.move(to: destinationURL)
@@ -135,7 +135,7 @@ struct FileInspectorView: View {
                             return
                         }
                         if !file.isFolder {
-                            editorManager.editorLayout.closeAllTabs(of: file)
+                            editorManager.editorSplit.closeAllTabs(of: file)
                         }
                         // This is ugly but if the tab is opened at the same time as closing the others, it doesn't open
                         // And if the files are re-built at the same time as the tab is opened, it causes a memory error

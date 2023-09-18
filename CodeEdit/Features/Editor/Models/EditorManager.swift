@@ -11,8 +11,8 @@ import DequeModule
 import OrderedCollections
 
 class EditorManager: ObservableObject {
-    /// The complete editor layout.
-    @Published var editorLayout: EditorLayout
+    /// The root editor split.
+    @Published var editorSplit: EditorSplit
 
     @Published var isFocusingActiveEditor: Bool
 
@@ -37,14 +37,14 @@ class EditorManager: ObservableObject {
         let tab = Editor()
         self.activeEditor = tab
         self.activeEditorHistory.prepend { [weak tab] in tab }
-        self.editorLayout = .horizontal(.init(.horizontal, editorLayouts: [.one(tab)]))
+        self.editorSplit = .horizontal(.init(.horizontal, editorSplits: [.one(tab)]))
         self.isFocusingActiveEditor = false
         switchToActiveEditor()
     }
 
     /// Flattens the splitviews.
     func flatten() {
-        if case .horizontal(let data) = editorLayout {
+        if case .horizontal(let data) = editorSplit {
             data.flatten()
         }
     }
@@ -76,12 +76,12 @@ class EditorManager: ObservableObject {
               let state = try? JSONDecoder().decode(EditorRestorationState.self, from: data) else {
             return
         }
-        fixRestoredEditorLayout(state.groups, fileManager: fileManager)
-        self.editorLayout = state.groups
-        self.activeEditor = findEditorLayout(
+        fixRestoredEditorSplit(state.groups, fileManager: fileManager)
+        self.editorSplit = state.groups
+        self.activeEditor = findEditorSplit(
             group: state.groups,
             searchFor: state.focus.id
-        ) ?? editorLayout.findSomeEditor()!
+        ) ?? editorSplit.findSomeEditor()!
         switchToActiveEditor()
     }
 
@@ -92,29 +92,29 @@ class EditorManager: ObservableObject {
     /// - Parameters:
     ///   - group: The tab group to fix.
     ///   - fileManager: The file manager to use to map files.
-    private func fixRestoredEditorLayout(_ group: EditorLayout, fileManager: CEWorkspaceFileManager) {
+    private func fixRestoredEditorSplit(_ group: EditorSplit, fileManager: CEWorkspaceFileManager) {
         switch group {
         case let .one(data):
             fixEditor(data, fileManager: fileManager)
         case let .vertical(splitData):
-            splitData.editorLayouts.forEach { group in
-                fixRestoredEditorLayout(group, fileManager: fileManager)
+            splitData.editorSplits.forEach { group in
+                fixRestoredEditorSplit(group, fileManager: fileManager)
             }
         case let .horizontal(splitData):
-            splitData.editorLayouts.forEach { group in
-                fixRestoredEditorLayout(group, fileManager: fileManager)
+            splitData.editorSplits.forEach { group in
+                fixRestoredEditorSplit(group, fileManager: fileManager)
             }
         }
     }
 
-    private func findEditorLayout(group: EditorLayout, searchFor id: UUID) -> Editor? {
+    private func findEditorSplit(group: EditorSplit, searchFor id: UUID) -> Editor? {
         switch group {
         case let .one(data):
             return data.id == id ? data : nil
         case let .vertical(splitData):
-            return splitData.editorLayouts.compactMap { findEditorLayout(group: $0, searchFor: id) }.first
+            return splitData.editorSplits.compactMap { findEditorSplit(group: $0, searchFor: id) }.first
         case let .horizontal(splitData):
-            return splitData.editorLayouts.compactMap { findEditorLayout(group: $0, searchFor: id) }.first
+            return splitData.editorSplits.compactMap { findEditorSplit(group: $0, searchFor: id) }.first
         }
     }
 
@@ -131,7 +131,7 @@ class EditorManager: ObservableObject {
 
     func saveRestorationState(_ workspace: WorkspaceDocument) {
         if let data = try? JSONEncoder().encode(
-            EditorRestorationState(focus: activeEditor, groups: editorLayout)
+            EditorRestorationState(focus: activeEditor, groups: editorSplit)
         ) {
             workspace.addToWorkspaceState(key: .openTabs, value: data)
         } else {

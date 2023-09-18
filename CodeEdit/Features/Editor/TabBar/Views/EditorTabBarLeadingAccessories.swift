@@ -20,7 +20,7 @@ struct EditorTabBarLeadingAccessories: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            if let otherGroup = editorManager.editorLayout.findSomeEditor(except: editor) {
+            if let otherGroup = editorManager.editorSplit.findSomeEditor(except: editor) {
                 EditorTabBarAccessoryIcon(
                     icon: .init(systemName: "multiply"),
                     action: { [weak editor] in
