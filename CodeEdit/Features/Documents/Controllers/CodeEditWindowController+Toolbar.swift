@@ -32,6 +32,7 @@ extension CodeEditWindowController {
             .flexibleSpace,
             .activityViewer,
             .flexibleSpace,
+            .showLibrary,
             .itemListTrackingSeparator,
             .flexibleSpace,
             .toggleLastSidebarItem
@@ -47,6 +48,7 @@ extension CodeEditWindowController {
             .toggleLastSidebarItem,
             .branchPicker,
             .activityViewer,
+            .showLibrary,
             .startTaskSidebarItem,
             .stopTaskSidebarItem
         ]
@@ -174,6 +176,20 @@ extension CodeEditWindowController {
             ])
 
             toolbarItem.view = view
+            return toolbarItem
+        case .showLibrary:
+            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier.showLibrary)
+            toolbarItem.label = "Show Library"
+            toolbarItem.paletteLabel = "Show Library"
+            toolbarItem.toolTip = "Hide or show the Library"
+            toolbarItem.isBordered = true
+            toolbarItem.target = self
+            toolbarItem.action = #selector(self.openLibrary)
+            toolbarItem.image = NSImage(
+                systemSymbolName: "plus",
+                accessibilityDescription: nil
+            )?.withSymbolConfiguration(.init(scale: .large))
+
             return toolbarItem
         default:
             return NSToolbarItem(itemIdentifier: itemIdentifier)

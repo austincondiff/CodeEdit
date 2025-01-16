@@ -33,6 +33,11 @@ struct ViewCommands: Commands {
             }
             .keyboardShortcut("p", modifiers: [.shift, .command])
 
+            Button("Show Library") {
+                NSApp.sendAction(#selector(CodeEditWindowController.openLibrary(_:)), to: nil, from: nil)
+            }
+            .keyboardShortcut("l", modifiers: [.shift, .command])
+
             Menu("Font Size") {
                 Button("Increase") {
                     if editorFontSize < 288 {

@@ -36,6 +36,7 @@ final class WorkspaceDocument: NSDocument, ObservableObject, NSToolbarDelegate {
     var searchState: SearchState?
     var openQuicklyViewModel: OpenQuicklyViewModel?
     var commandsPaletteState: QuickActionsViewModel?
+    var libraryState: SnippetsViewModel?
     var listenerModel: WorkspaceNotificationModel = .init()
     var sourceControlManager: SourceControlManager?
 
@@ -138,6 +139,7 @@ final class WorkspaceDocument: NSDocument, ObservableObject, NSToolbarDelegate {
         sourceControlManager.fileManager = workspaceFileManager
         self.searchState = .init(self)
         self.openQuicklyViewModel = .init(fileURL: url)
+        self.libraryState = .init()
         self.commandsPaletteState = .init()
         self.workspaceSettingsManager = CEWorkspaceSettings(workspaceURL: url)
         if let workspaceSettingsManager {

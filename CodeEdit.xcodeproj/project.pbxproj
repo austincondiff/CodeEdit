@@ -518,6 +518,10 @@
 		B607184C2B17E037009CDAB4 /* SourceControlStashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B607184B2B17E037009CDAB4 /* SourceControlStashView.swift */; };
 		B60BE8BD297A167600841125 /* AcknowledgementRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60BE8BC297A167600841125 /* AcknowledgementRowView.swift */; };
 		B6152B802ADAE421004C6012 /* CodeEditWindowControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6152B7F2ADAE421004C6012 /* CodeEditWindowControllerExtensions.swift */; };
+		B61657202D2DC86B00939D2C /* SnippetsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B616571F2D2DC86500939D2C /* SnippetsManager.swift */; };
+		B61657222D2DC88E00939D2C /* Snippet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61657212D2DC88600939D2C /* Snippet.swift */; };
+		B61657252D2DC8F600939D2C /* SnippetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61657242D2DC8ED00939D2C /* SnippetsViewModel.swift */; };
+		B61657272D2DC94D00939D2C /* SnippetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61657262D2DC94900939D2C /* SnippetsView.swift */; };
 		B61A606129F188AB009B43F9 /* ExternalLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61A606029F188AB009B43F9 /* ExternalLink.swift */; };
 		B61A606929F4481A009B43F9 /* MonospacedFontPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61A606829F4481A009B43F9 /* MonospacedFontPicker.swift */; };
 		B61DA9DF29D929E100BF4A43 /* GeneralSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61DA9DE29D929E100BF4A43 /* GeneralSettingsView.swift */; };
@@ -1195,6 +1199,10 @@
 		B607184B2B17E037009CDAB4 /* SourceControlStashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceControlStashView.swift; sourceTree = "<group>"; };
 		B60BE8BC297A167600841125 /* AcknowledgementRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcknowledgementRowView.swift; sourceTree = "<group>"; };
 		B6152B7F2ADAE421004C6012 /* CodeEditWindowControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeEditWindowControllerExtensions.swift; sourceTree = "<group>"; };
+		B616571F2D2DC86500939D2C /* SnippetsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsManager.swift; sourceTree = "<group>"; };
+		B61657212D2DC88600939D2C /* Snippet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snippet.swift; sourceTree = "<group>"; };
+		B61657242D2DC8ED00939D2C /* SnippetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsViewModel.swift; sourceTree = "<group>"; };
+		B61657262D2DC94900939D2C /* SnippetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsView.swift; sourceTree = "<group>"; };
 		B61A606029F188AB009B43F9 /* ExternalLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalLink.swift; sourceTree = "<group>"; };
 		B61A606829F4481A009B43F9 /* MonospacedFontPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonospacedFontPicker.swift; sourceTree = "<group>"; };
 		B61DA9DE29D929E100BF4A43 /* GeneralSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
@@ -1727,6 +1735,8 @@
 		5831E3C52933E6CB00D5A6D2 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				B616571C2D2DC83900939D2C /* Snippets */,
+				B616571F2D2DC86500939D2C /* SnippetsManager.swift */,
 				582213EE2918345500EFE361 /* About */,
 				618725B92C33107C00987354 /* CEWorkspaceSettings */,
 				588847642992A30900996D95 /* CEWorkspace */,
@@ -3197,6 +3207,40 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		B616571C2D2DC83900939D2C /* Snippets */ = {
+			isa = PBXGroup;
+			children = (
+				B61657232D2DC8E500939D2C /* ViewModels */,
+				B616571E2D2DC84D00939D2C /* Models */,
+				B616571D2D2DC84800939D2C /* Views */,
+			);
+			path = Snippets;
+			sourceTree = "<group>";
+		};
+		B616571D2D2DC84800939D2C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B61657262D2DC94900939D2C /* SnippetsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B616571E2D2DC84D00939D2C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B61657212D2DC88600939D2C /* Snippet.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B61657232D2DC8E500939D2C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B61657242D2DC8ED00939D2C /* SnippetsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		B61DA9DD29D929BF00BF4A43 /* Pages */ = {
 			isa = PBXGroup;
 			children = (
@@ -4007,6 +4051,7 @@
 				587B9E8429301D8F00AC7927 /* GitHubUser.swift in Sources */,
 				04BA7C1C2AE2D84100584E1C /* GitClient+Commit.swift in Sources */,
 				B65B10EC2B073913002852CF /* CEContentUnavailableView.swift in Sources */,
+				B61657272D2DC94D00939D2C /* SnippetsView.swift in Sources */,
 				5B698A0A2B262FA000DE9392 /* SearchSettingsView.swift in Sources */,
 				B65B10FB2B08B054002852CF /* Divided.swift in Sources */,
 				B65B11012B09D5D4002852CF /* GitClient+Pull.swift in Sources */,
@@ -4020,6 +4065,7 @@
 				B6EA1FF529DA380E001BF195 /* TextEditingSettingsView.swift in Sources */,
 				D7DC4B76298FFBE900D6C83D /* ProjectNavigatorViewController+OutlineTableViewCellDelegate.swift in Sources */,
 				587B9E9229301D8F00AC7927 /* BitBucketAccount.swift in Sources */,
+				B61657252D2DC8F600939D2C /* SnippetsViewModel.swift in Sources */,
 				DE513F52281B672D002260B9 /* EditorTabBarAccessory.swift in Sources */,
 				6CD26C7A2C8EA8A500ADBA38 /* LSPCache.swift in Sources */,
 				618725A42C29F00400987354 /* WorkspaceMenuItemView.swift in Sources */,
@@ -4085,6 +4131,7 @@
 				30B087FE2C0D53080063A882 /* LanguageServer+ColorPresentation.swift in Sources */,
 				66F2C8C42BEAA939004674F7 /* PDFFileView.swift in Sources */,
 				611192042B08CCED00D4459B /* SearchIndexer+ProgressiveSearch.swift in Sources */,
+				B61657202D2DC86B00939D2C /* SnippetsManager.swift in Sources */,
 				611192022B08CCDC00D4459B /* SearchIndexer+Search.swift in Sources */,
 				04BA7C272AE2E9F100584E1C /* GitClient+Push.swift in Sources */,
 				B664C3B32B96634F00816B4E /* NavigationSettingsView.swift in Sources */,
@@ -4427,6 +4474,7 @@
 				58F2EB07292FB2B0004A9BDE /* GeneralSettings.swift in Sources */,
 				B6041F4D29D7A4E9000F3454 /* SettingsPageView.swift in Sources */,
 				587B9E9A29301D8F00AC7927 /* GitStatus.swift in Sources */,
+				B61657222D2DC88E00939D2C /* Snippet.swift in Sources */,
 				B65B10F82B081A34002852CF /* SourceControlNavigatorNoRemotesView.swift in Sources */,
 				58D01C97293167DC00C5B6B4 /* String+SHA256.swift in Sources */,
 				61A3E3D92C33126F00076BD3 /* CEWorkspaceSettingsData.swift in Sources */,

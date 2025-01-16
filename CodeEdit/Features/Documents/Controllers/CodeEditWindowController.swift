@@ -21,6 +21,7 @@ final class CodeEditWindowController: NSWindowController, NSToolbarDelegate, Obs
     var workspace: WorkspaceDocument?
     var workspaceSettingsWindow: NSWindow?
     var quickOpenPanel: SearchPanel?
+    var libraryPanel: SearchPanel?
     var commandPalettePanel: SearchPanel?
     var navigatorSidebarViewModel: NavigatorAreaViewModel?
 
@@ -126,6 +127,37 @@ final class CodeEditWindowController: NSWindowController, NSToolbarDelegate, Obs
                 let contentView = QuickActionsView(state: state) {
                     panel.close()
                     self.panelOpen = false
+                }
+                panel.contentView = NSHostingView(rootView: SettingsInjector { contentView })
+                window?.addChildWindow(panel, ordered: .above)
+                panel.makeKeyAndOrderFront(self)
+                self.panelOpen = true
+            }
+        }
+    }
+
+    @IBAction func openLibrary(_ sender: Any) {
+        if let workspace, let state = workspace.libraryState {
+            if let libraryPanel {
+                if libraryPanel.isKeyWindow {
+                    libraryPanel.close()
+                    self.panelOpen = false
+                    state.reset()
+                    return
+                } else {
+                    state.reset()
+                    window?.addChildWindow(libraryPanel, ordered: .above)
+                    libraryPanel.makeKeyAndOrderFront(self)
+                    self.panelOpen = true
+                }
+            } else {
+                let panel = SearchPanel()
+                self.libraryPanel = panel
+                let contentView = SnippetsView(viewModel: state) {
+                    panel.close()
+                    self.panelOpen = false
+                } insertSnippet: { snippet in
+                    print(snippet)
                 }
                 panel.contentView = NSHostingView(rootView: SettingsInjector { contentView })
                 window?.addChildWindow(panel, ordered: .above)
