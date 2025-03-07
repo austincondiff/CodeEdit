@@ -10,6 +10,13 @@ import SwiftUI
 struct InternalDevelopmentInspectorView: View {
     var body: some View {
         Form {
+            if #available(macOS 14.0, *) {
+                Section("Performance") {
+//                    LabeledContent("FPS") {
+                    FPSView()
+//                    }
+                }
+            }
             InternalDevelopmentNotificationsView()
         }
     }
